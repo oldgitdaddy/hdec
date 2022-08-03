@@ -254,6 +254,9 @@ class wallbox():
             "ama": "{}".format(self.hw_max_current),
             "pha": "{}".format(pha),
             "hdec_mbusid": "{}".format(self.clientid),
+            
+            # ToDo: Numeric values in "nrg" instead of strings??
+            #       see: https://github.com/leuzoe/hdec/issues/3
             "nrg": (
                 "{}".format(self.get_voltage(1)),
                 "{}".format(self.get_voltage(2)),
