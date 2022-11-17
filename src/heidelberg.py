@@ -80,6 +80,12 @@ class wallbox():
         fake command: just remember that box state should be "allow charging"
         """
         self._allowed = state
+        alw = 1 if state else 0
+        c = self.get_current_preset()
+        if (state == False):
+          self.set_current_preset(0)
+        elif (c == 0):
+          self.set_current_preset(6)
 
     def is_allowed(self):
         """
@@ -237,10 +243,10 @@ class wallbox():
             "alw": "{}".format(1 if self.is_allowed() else 0),
             "stp": "0",
             "cbl": "16",
-            "tmp": "{}".format(self.get_temperature()),
+            "tmp": "{}".format(round(self.get_temperature())),
             "dws": "{}".format(int(self.get_actual_energy() * 360000)),
             "dwo": "{}".format(self.get_dest_energy()),
-            "eto": "{:.2f}".format(self.get_total_energy() * 10),
+            "eto": (round(self.get_total_energy()*10)),
             "uby": "0",
             "ust": "2",
             "adi": "0",
@@ -253,27 +259,29 @@ class wallbox():
             "sse": "hdec-{}".format(hex(self.modbusversion)),
             "ama": "{}".format(self.hw_max_current),
             "pha": "{}".format(pha),
+          # included state to get a more detailed info on the charger´s health
+            "state": "{}".format(self.get_state()),
             "hdec_mbusid": "{}".format(self.clientid),
             
             # ToDo: Numeric values in "nrg" instead of strings??
             #       see: https://github.com/leuzoe/hdec/issues/3
             "nrg": (
-                "{}".format(self.get_voltage(1)),
-                "{}".format(self.get_voltage(2)),
-                "{}".format(self.get_voltage(3)),
-                "0",
-                "{}".format(self.get_current(1) * 10),
-                "{}".format(self.get_current(2) * 10),
-                "{}".format(self.get_current(3) * 10),
-                "{:.1f}".format(self.get_voltage(1) * self.get_current(1) / 100),
-                "{:.1f}".format(self.get_voltage(2) * self.get_current(2) / 100),
-                "{:.1f}".format(self.get_voltage(3) * self.get_current(3) / 100),
-                "0",
-                "{:.1f}".format(self.get_power() * 100),
-                "1",
-                "1",
-                "1",
-                "1",
+                self.get_voltage(1),
+                self.get_voltage(2),
+                self.get_voltage(3),
+                0,
+                (self.get_current(1) * 10),
+                (self.get_current(2) * 10),
+                (self.get_current(3) * 10),
+                (self.get_voltage(1) * self.get_current(1) / 100),
+                (self.get_voltage(2) * self.get_current(2) / 100),
+                (self.get_voltage(3) * self.get_current(3) / 100),
+                0,
+                (self.get_power() * 100),
+                1,
+                1,
+                1,
+                1,
                 )
             }
         return(json.dumps(s))
