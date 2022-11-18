@@ -80,7 +80,6 @@ class wallbox():
         fake command: just remember that box state should be "allow charging"
         """
         self._allowed = state
-        alw = 1 if state else 0
         c = self.get_current_preset()
         if (state == False):
           self.set_current_preset(0)
