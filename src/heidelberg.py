@@ -48,7 +48,26 @@ class wallbox():
         10: F
         11: Err
         """
-        return(self._get_client_register(5))
+        s = self._get_client_register(5)
+        standby = self.get_standby_status()
+        
+        #set standby value and thereby reset session power consumption meter
+        if s >= 4 and standby == 0:
+            self._write_register(258, 4)
+            self.cregs[258] = 4
+        elif s < 3 and standby == 4:
+            self._write_register(258, 0)
+            self.cregs[258] = 0
+        return(s)
+
+    def get_state_as_letter(self):
+        state = self.get_state()
+        if state <= 3:
+            return("A")
+        if state >= 4 and state <= 6:
+            return("B")
+        if state >= 7:
+            return("C")
 
     def get_temperature(self):
         """
@@ -261,7 +280,7 @@ class wallbox():
           # included state to get a more detailed info on the charger´s health
             "state": "{}".format(self.get_state()),
             "hdec_mbusid": "{}".format(self.clientid),
-            
+            "standby": "{}".format(self.get_standby_status()),
             # ToDo: Numeric values in "nrg" instead of strings??
             #       see: https://github.com/leuzoe/hdec/issues/3
             "nrg": (

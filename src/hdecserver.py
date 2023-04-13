@@ -12,6 +12,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 sys.path.append(os.path.dirname(__file__))
 from heidelberg import wallbox
+from mqtt import mqtt
 
 description = """
 Ein Miniserver für die Übersetzung der Modbus Steuerung für die
@@ -112,6 +113,11 @@ if __name__ == "__main__":
     for n in range(num_wbs):
         wb = wallbox(cfg["hdec"]["device"], n + 1)
         wbs.append(wb)
+    mqtt_host= cfg["mqtt"]["host"]
+    mqtt_user=cfg["mqtt"]["user"]
+    mqtt_pwd=cfg["mqtt"]["password"]
+   
+    mqtt = mqtt(wbs, mqtt_host, mqtt_user, mqtt_pwd)
     
     webServer = HTTPServer((hostName, serverPort), MyServer)
     logger.debug("Server gestartet http://%s:%s - Ende mit Ctrl-C" %
