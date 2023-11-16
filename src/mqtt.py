@@ -36,6 +36,8 @@ class mqtt():
 	
         if message.topic == "wbec/lp/1/maxcurrent":
             userdata.wbs[0].set_current_preset(int(message_received))
+            userdata.wbs[0].allow(True)
+            #userdata.wbs[0].set_current_preset(int(message_received))
         if message.topic == "wbec/lp/1/enable":
             if message_received.lower() == "false":
                 userdata.wbs[0].allow(False)
