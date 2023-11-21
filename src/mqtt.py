@@ -36,13 +36,18 @@ class mqtt():
 	
         if message.topic == "wbec/lp/1/maxcurrent":
             userdata.wbs[0].set_current_preset(int(message_received))
-            userdata.wbs[0].allow(True)
+            userdata.wbs[0].allow(message_received != "0")
+            if(message_received != "0"):
+                userdata.previous_current = int(message_received)
             #userdata.wbs[0].set_current_preset(int(message_received))
         if message.topic == "wbec/lp/1/enable":
             if message_received.lower() == "false":
+                userdata.wbs[0].set_current_preset(0)
                 userdata.wbs[0].allow(False)
             else: 
                 userdata.wbs[0].allow(True)
+                userdata.wbs[0].set_current_preset(userdata.previous_current)
+                
 
             client.publish("wbec/lp/1/enabled", payload=message.payload, qos=0, retain=True)
         # Always share status
@@ -50,7 +55,7 @@ class mqtt():
         # client.publish("hdec", payload="topic " + message.topic +  " "+ "message received " + str(message.payload), qos=0, retain=False)
             
     def __init__(self, wbs, host, user, pwd):
-       
+        self.previous_current = 6
         self.logger = logging.getLogger("hdec") 
         self.logger.debug("Starting MQTT client " + str(wbs))
         self.wbs = wbs

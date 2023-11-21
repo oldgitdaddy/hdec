@@ -99,15 +99,7 @@ class wallbox():
         fake command: just remember that box state should be "allow charging"
         """
         self._allowed = state
-        #c = self.get_current_preset()
-        #self.logger.debug("hw_max_current {}".format(self.hw_max_current))
-        #self.logger.debug("hw_current_preset {}".format(c))
-        if (state == False):
-          self.set_current_preset(0)
-        #elif (c == 0):
-        #  self.set_current_preset(self.hw_max_current)
-        #else: 
-        #  self.set_current_preset(c)
+        
 
     def is_allowed(self):
         """
