@@ -77,7 +77,7 @@ werden, "leader" ist dann der Raspi.
 ### Das Modul einrichten
 ```
 cd /tmp
-git clone https://github.com/leuzoe/hdec
+git clone https://github.com/oldgitdaddy/hdec
 cd /var/www
 sudo mkdir hdec
 sudo chown pi hdec
@@ -198,7 +198,7 @@ box must be configured to be a "follower". Modbus "leader" is your raspi.
 ### Install the module
 ```
 cd /tmp
-git clone https://github.com/leuzoe/hdec
+git clone https://github.com/oldgitdaddy/hdec
 cd /var/www
 sudo mkdir hdec
 sudo chown pi hdec
