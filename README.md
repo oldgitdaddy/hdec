@@ -1,7 +1,4 @@
-# hdec -- Ein Python Modul für die Wallbox "Heidelberg Energy Control"
-<small>english version: see below</small>
-
-THIS IS A BIT REWORKED VERSION OF THE ORIGINAL VERSION 
+**THIS IS A BIT REWORKED VERSION OF THE ORIGINAL VERSION**
 
 The following things have been added:
 - MQTT support for integration with EVCC
@@ -16,6 +13,9 @@ Setting up MQTT commands in EVCC, follow this guide here: https://github.com/ste
 Only 1 wallbox supported. Let me know if one requires additional features. Feedback welcome.
 
 ORIGINAL TEXT:
+
+# hdec -- Ein Python Modul für die Wallbox "Heidelberg Energy Control"
+<small>english version: see below</small>
 
 Das Ziel dieses Moduls ist es, die Wallbox "Heidelberg Energy Control" über 
 deren Modbus zu steuern. Insbesondere geht es darum, ein Lademodul für openWB 
